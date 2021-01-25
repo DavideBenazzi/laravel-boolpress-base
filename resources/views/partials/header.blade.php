@@ -13,6 +13,12 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ route('about') }}">About Us</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('posts.index') }}">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('posts.create') }}">New Post</a>
+            </li>
           </ul>
         </div>
       </nav>
