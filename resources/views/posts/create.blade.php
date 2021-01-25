@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="body">Description</label>
-                <textarea class='form-control' name="body" id="body">{{ old('description') }}</textarea>
+                <textarea class='form-control' name="body" id="body">{{ old('body') }}</textarea>
             </div>
             <div class="form-group">
                 <label for="path_img">Post Image</label>
