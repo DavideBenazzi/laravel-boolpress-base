@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
@@ -43,6 +46,25 @@ class PostController extends Controller
        
         //VALIDATION WITH A PRIVATE CUSTOM FUNCTION
         $request->validate($this->ruleValidation());
+
+        //SET POST SLUG
+        $data['slug'] = Str::slug($data['title'] , '-');
+
+        //IMG E' PRESENTE?
+        if (!empty($data['path_img'])) {
+            $data['path_img'] = Storage::disk('public')->put('images' , $data['path_img']);
+        } 
+
+        //SAVE TO DB
+        $newPost = new Post();
+        $newPost->fill($data); //<---- Fillable model!!!
+        $saved = $newPost->save();
+
+        if ($saved) {
+            return redirect()->route('posts.index');
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     /**
