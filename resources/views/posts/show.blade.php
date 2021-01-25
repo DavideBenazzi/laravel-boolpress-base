@@ -9,7 +9,7 @@
             Last update: {{ $post->updated_at->diffForHumans() }}
         </div>
         <div class="actions mb-5">
-            <a class="mt-2 btn btn-primary" href="">Edit</a>
+            <a class="mt-2 btn btn-primary" href="{{ route('posts.edit' , $post->slug) }}">Edit</a>
         </div>
         @if (!empty($post->path_img))
             <img src="{{ asset('storage/' . $post->path_img) }}" alt="{{ $post->title }}">

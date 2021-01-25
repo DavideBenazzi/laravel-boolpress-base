@@ -57,7 +57,7 @@ class PostController extends Controller
 
         //SAVE TO DB
         $newPost = new Post();
-        $newPost->fill($data); //<---- Fillable model!!!
+        $newPost->fill($data); //<----Fillable in  model!!!
         $saved = $newPost->save();
 
         if ($saved) {
@@ -85,9 +85,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $post = Post::where('slug' , $slug)->first();
+        return view('posts.edit' , compact('post'));
     }
 
     /**
@@ -99,7 +100,34 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //GET DATA FROM FORM
+        $data = $request->all();
+
+        //VALIDATION
+        $request->validate($this->ruleValidation());
+
+        //GET POST TO UPDATE
+        $post = Post::find($id);
+
+        //SLUG GENERATION
+        $data['slug'] = Str::slug($data['title'] , '-');
+
+        //IF IMAGE CHANGED?
+        if(!empty($data['path_img'])) {
+            if(!empty($post->path_img)) {
+                Storage::disk('public')->delete($post->path_img);
+            }
+            $data['path_img'] = Storage::disk('public')->put('images' , $data['path_img']);
+        }
+
+        //UPDATE IN DATABASE
+        $updated = $post->update($data); //<---- Fillable in model!!
+
+        if($updated) {
+            return redirect()->route('posts.show' , $post->slug);
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     /**
