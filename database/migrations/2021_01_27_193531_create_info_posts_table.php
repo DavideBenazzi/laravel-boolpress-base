@@ -17,13 +17,14 @@ class CreateInfoPostsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('post_id');
             $table->string('post_status' , 7); // public , private , draft
-            $table->string('post_comment' , 7); // open , closed , private
+            $table->string('comment_status' , 7); // open , closed , private
             // $table->timestamps();
 
             //Relazione
             $table->foreign('post_id')
                 ->references('id')
-                ->on('posts');
+                ->on('posts')
+                ->onDelete('cascade');
         });
     }
 

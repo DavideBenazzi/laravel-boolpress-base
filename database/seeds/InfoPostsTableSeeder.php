@@ -24,7 +24,7 @@ class InfoPostsTableSeeder extends Seeder
             //valori colonne
             $newInfo->post_id = $post->id;
             $newInfo->post_status = $faker->randomElement(['public' , 'private' , 'draft']);
-            $newInfo->post_comment = $faker->randomElement(['open' , 'closed' , 'private']);
+            $newInfo->comment_status = $faker->randomElement(['open' , 'closed' , 'private']);
 
             //salvataggio
             $newInfo->save();
