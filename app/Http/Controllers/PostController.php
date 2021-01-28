@@ -107,13 +107,14 @@ class PostController extends Controller
     public function edit($slug)
     {
         $post = Post::where('slug' , $slug)->first();
+        $tags = Tag::all();
 
         //CHECK
         if (empty('$post')) {
             abort(404);
         }
 
-        return view('posts.edit' , compact('post'));
+        return view('posts.edit' , compact('post' , 'tags'));
     }
 
     /**
@@ -155,6 +156,11 @@ class PostController extends Controller
 
 
         if($updated && $infoUpdated) {
+            if (!empty($data['tags'])) {
+                $post->tags()->sync($data['tags']);
+            } else {
+                $post->tags()->detach();
+            }
             return redirect()->route('posts.show' , $post->slug);
         } else {
             return redirect()->route('homepage');
@@ -171,6 +177,7 @@ class PostController extends Controller
     {
         $title = $post->title;
         $image = $post->path_img;
+        $post->tags()->detach();
         $deleted = $post->delete();
 
         if ($deleted) {

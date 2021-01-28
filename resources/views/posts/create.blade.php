@@ -73,6 +73,7 @@
                     </div>
                 @endforeach
             </div>
+            
             <div class="form-group">
                 <input class="btn btn-primary" type="submit" value="Create Post">
             </div>
